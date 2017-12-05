@@ -9,22 +9,29 @@ public class DrothyController : MonoBehaviour
 
 	[SerializeField]
 	private float threasholdMoveSpeed = 1f;
+
+	[SerializeField]
+	private Transform modelRoot;
+
 	private Vector3 prevPosition;
 
 	// Use this for initialization
 	void Start ()
 	{
 		anim = GetComponent<Animator>();
-		prevPosition = anim.bodyPosition;
+		prevPosition = modelRoot.localPosition;
 		walking = false;
 	}
-	
+
 	// Update is called once per frame
 	void Update () 
 	{
-		var diff = (prevPosition - anim.bodyPosition).magnitude;
+		var vDiff = (prevPosition - modelRoot.localPosition);
+//		Debug.Log( vDiff );
 
-		//Debug.Log( diff );
+		var diff = vDiff.magnitude;
+
+//			Debug.Log( diff.ToString() );
 
 		walking = diff >= threasholdMoveSpeed;
 
@@ -32,7 +39,7 @@ public class DrothyController : MonoBehaviour
 		{
 			anim.SetBool("Walking", walking);
 		}
-
-		prevPosition = anim.bodyPosition;
+		
+		prevPosition = modelRoot.localPosition;
 	}
 }
